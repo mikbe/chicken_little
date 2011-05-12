@@ -32,9 +32,9 @@ To see if it can be installed run:
 
 ### What's it do?
 
-Chicken Little hard patches the Rubygems library changing a single line of code so warning messages aren't printed for the `Gem::Specification#default_executable=` messsage.
+Chicken Little hard patches the Rubygems library changing two lines of code commenting out the offending deprecations so warning messages aren't printed for the `Gem::Specification#default_executable=` messsage.
 
-It doesn't stop any other deprecation warnings, just the hostile, anti-user default\_executable one.  
+It doesn't stop any other deprecation warnings just the hostile, anti-user default\_executable one.  
 
 ### Notes
 
