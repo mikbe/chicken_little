@@ -3,10 +3,10 @@ $:.push File.expand_path("../lib", __FILE__)
 require "chicken_little/version"
 
 Gem::Specification.new do |s|
-  s.name        = %{chicken_little} #changed to %{} from "" to see if that fixes name method not found bug
+  s.name        = "chicken_little" #changed to %{} from "" to see if that fixes name method not found bug
   s.version     = ChickenLittle::VERSION
   s.platform    = Gem::Platform::RUBY
-  #s.date        = %q{2011-05-12} #this fixes the date bug in Linux.
+  s.date        = %q{2011-05-12} #this fixes the date bug in Linux.
   s.required_ruby_version   = '>= 1.9.2'
   s.authors     = ["Mike Bethany"]
   s.email       = ["mikbe.tk@gmail.com"]
