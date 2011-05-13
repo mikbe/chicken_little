@@ -24,7 +24,7 @@ The fix will be run repeatedly until the errors go away or it's tried too many t
 
         rvm_path = File.expand_path(ENV['rvm_path'] || '~/.rvm')
         $LOAD_PATH.unshift File.join(rvm_path, 'lib')
-        require 'rvmx'
+        require 'rvm'
         
         current_env = RVM.current.environment_name
         #puts "Current: #{current_env.inspect}"
@@ -93,7 +93,7 @@ The fix will be run repeatedly until the errors go away or it's tried too many t
     
     command "Checks to see if Chicken Little is already installed", :xor
     def installed?
-      spec_file_contents.select { |line| line.strip.start_with?("##{Uncommented_Line}") }.empty?
+      !spec_file_contents.select { |line| line.strip.start_with?("##{Uncommented_Line}") }.empty?
     end
 
     command "Lets you know if it can be installed"

@@ -12,13 +12,9 @@ Gem::Specification.new do |s|
 
   s.authors     = [%q{Mike Bethany}]
   s.date        = %q{2011-05-12}
-  s.description = %q{A simple hack to disable the incredibly annoying deprecation warnings for Gem::Specification#default_executable= when using the gem command.}
   s.email       = [%q{mikbe.tk@gmail.com}]
-  s.executables = [%q{chicken_little}]
-  s.files       = [%q{bin/chicken_little}]
   s.homepage    = %q{http://mikbe.tk}
   s.licenses    = [%q{MIT}]
-
 
   s.add_dependency("bundler")
   s.add_dependency("commandable")
