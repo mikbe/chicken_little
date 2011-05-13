@@ -11,12 +11,11 @@ module ChickenLittle
     
     command "Tries to fix your gems so they stop giving the deprication warning."
     def install
-      describe_fix
+      describe_fix false
       puts %{
-  Chicken Little is attempting to fix the errors for you properly. This will take a while.
-  The fix will be run repeatedly until the errors go away or it's tried too many times.
+Chicken Little is attempting to fix the errors for you properly. This may take a while.
+The fix will be run repeatedly until the errors go away or it's tried too many times.
       }
-      # rvm #{ruby_ver}@global
 
       # Test for RVM
       rvm = `rvm -v`.strip
@@ -29,25 +28,30 @@ module ChickenLittle
         require 'rvm'
         
         current_env = RVM.current.environment_name
-        puts "Current: #{current_env.inspect}"
-        puts `rvm-prompt`
+        #puts "Current: #{current_env.inspect}"
+        # puts `rvm-prompt`
         rvm = RVM.environment current_env
         
         rvm.gemset_use! 'global'
-        puts `rvm-prompt`
+        # puts `rvm-prompt`
         fix_gems
         rvm.use! "#{current_env}"
-        puts `rvm-prompt`
+        # puts `rvm-prompt`
+        puts "RVM global gemset done"
       end
       
-      puts "Fixing your default gemset now"
+      puts "\nFixing your default gemset now"
       fix_gems
+      puts "All done. Enjoy"
     end
     
     def fix_gems
       (1..5).each do |i|
-        puts "Run ##{i}: Cleaning up gems, this will take a while."
-        output = capture_output{
+        puts "Run ##{i}: Cleaning up gems, this may take a while."
+        output = capture_output{ Gem::GemRunner.new.run %w{list} }
+        break if output[:stderr].empty?
+        
+        output = capture_output{ 
           case i
             when 1,4
               Gem::GemRunner.new.run %w{pristine --all --no-extensions}
@@ -55,7 +59,6 @@ module ChickenLittle
               Gem::GemRunner.new.run %w{pristine --all}
           end 
         }
-        break if output[:stderr].empty?
       end
     end
     
@@ -105,18 +108,18 @@ module ChickenLittle
       unless File.exist?(flag_file) && !force_description
         FileUtils.touch flag_file
         puts %{
-  Important! The old install method should not be necessary.
+Important! The old install method should not be necessary.
 
-  A better fix is to run:
-  $ gem pristine --all --no-extensions
+A better fix is to run:
+$ gem pristine --all --no-extensions
 
-  Then run this:
-  $ gem pristine --all
+Then run this:
+$ gem pristine --all
 
-  You may need to run those commands several times.
-  
-  If you still have problems you can then force the old install method with:
-  $ chicken_little force_install}
+You may need to run those commands several times.
+
+If you still have problems you can then force the old install method with:
+$ chicken_little force_install}
       end
       
     end
