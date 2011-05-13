@@ -16,13 +16,28 @@ module ChickenLittle
   Chicken Little is attempting to fix the errors for you properly. This will take a while.
   The fix will be run repeatedly until the errors go away or it's tried too many times.
       }
-      
+      # rvm #{ruby_ver}@global
+
       # Test for RVM
       rvm = `rvm -v`.strip
       if rvm.start_with?('rvm')
         puts "Fixing the global RVM gemset first"
-        ruby_ver, gemset = `rvm-prompt`.strip.split("@")
-        `rvm #{ruby_ver}@global; gem pristine --all --no-extensions; gem pristine --all`
+        #ruby_ver, gemset = `rvm-prompt`.strip.split("@")
+
+        rvm_path = File.expand_path(ENV['rvm_path'] || '~/.rvm')
+        $LOAD_PATH.unshift File.join(rvm_path, 'lib')
+        require 'rvm'
+        
+        current_env = RVM.current.environment_name
+        puts "Current: #{current_env.inspect}"
+        puts `rvm-prompt`
+        rvm = RVM.environment current_env
+        
+        rvm.gemset_use! 'global'
+        puts `rvm-prompt`
+        fix_gems
+        rvm.use! "#{current_env}"
+        puts `rvm-prompt`
       end
       
       puts "Fixing your default gemset now"
@@ -40,8 +55,7 @@ module ChickenLittle
               Gem::GemRunner.new.run %w{pristine --all}
           end 
         }
-        puts "stderr: #{output[:stderr]}"
-        exit!
+        break if output[:stderr].empty?
       end
     end
     

@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency("bundler")
   s.add_dependency("commandable")
+  s.add_dependency("term-ansicolor-hi")
   #s.add_dependency("rubygems-update")
 
   s.files         = `git ls-files`.split("\n")
