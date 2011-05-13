@@ -78,7 +78,7 @@ The fix will be run repeatedly until the errors go away or it's tried too many t
       end
     end
     
-    command "Removes the Chicken Little patch", :xor
+    command "Removes the old Chicken Little patch.\nThe new fix does not need to be uninstalled\nas it doesn't really install anything.", :xor
     def uninstall
       supported?
       return "Chicken Little isn't installed" unless installed?
@@ -104,7 +104,7 @@ The fix will be run repeatedly until the errors go away or it's tried too many t
       "Looks good. Chicken Little can find and modify the necessary files."
     end
     
-    command "Desribe a better way to fix the problem"
+    command "Describe a better way to fix the problem"
     def describe_fix(force_description=true)
       flag_file = "#{File.expand_path(File.dirname(__FILE__))}/better_fix_described"
       unless File.exist?(flag_file) && !force_description
