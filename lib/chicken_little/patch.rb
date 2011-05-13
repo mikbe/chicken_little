@@ -18,8 +18,7 @@ The fix will be run repeatedly until the errors go away or it's tried too many t
       }
 
       # Test for RVM
-      rvm = `rvm -v`.strip
-      if rvm.start_with?('rvm')
+      begin
         puts "Fixing the global RVM gemset first"
         #ruby_ver, gemset = `rvm-prompt`.strip.split("@")
 
@@ -38,6 +37,7 @@ The fix will be run repeatedly until the errors go away or it's tried too many t
         rvm.use! "#{current_env}"
         # puts `rvm-prompt`
         puts "RVM global gemset done"
+      rescue
       end
       
       puts "\nFixing your default gemset now"
