@@ -24,7 +24,7 @@ The fix will be run repeatedly until the errors go away or it's tried too many t
 
         rvm_path = File.expand_path(ENV['rvm_path'] || '~/.rvm')
         $LOAD_PATH.unshift File.join(rvm_path, 'lib')
-        require 'rvm'
+        require 'rvmx'
         
         current_env = RVM.current.environment_name
         #puts "Current: #{current_env.inspect}"
@@ -37,7 +37,9 @@ The fix will be run repeatedly until the errors go away or it's tried too many t
         rvm.use! "#{current_env}"
         # puts `rvm-prompt`
         puts "RVM global gemset done"
-      rescue
+      rescue Exception
+        #skipping error
+        puts "RVM not found"
       end
       
       puts "\nFixing your default gemset now"
