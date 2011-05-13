@@ -1,6 +1,6 @@
-# require 'rubygems'
-# require 'rubygems/gem_runner'
-# require 'rubygems/exceptions'
+require 'rubygems'
+require 'rubygems/gem_runner'
+require 'rubygems/exceptions'
 
 module ChickenLittle
 
@@ -11,20 +11,18 @@ module ChickenLittle
     
     command "Tries to fix your gems so they stop giving the deprication warning."
     def install
-  #     describe_fix
-  #     puts %{
-  # Chicken Little is attempting to fix the errors for you properly. This will take a while.
-  # The fix will be run repeatedly until the errors go away or it's tried too many times.
-  #     }
-  #     
-  #     # Test for RVM
-  #     if `rvm -v`.start_with?("rvm")
-  #       puts "Fixing the global RVM gemset first"
-  #       ruby_ver, gemset = `rvm-prompt`.split("@")
-  #       `rvm gemset use global`
-  #       #fix_gems
-  #       `rvm #{ruby_ver}`
-  #     end
+      describe_fix
+      puts %{
+  Chicken Little is attempting to fix the errors for you properly. This will take a while.
+  The fix will be run repeatedly until the errors go away or it's tried too many times.
+      }
+      
+      # Test for RVM
+      rvm = `rvm -v`.strip
+      if rvm.start_with?('rvm')
+        puts "Fixing the global RVM gemset first"
+        `rvm gemset use global; rvm gemset pristine`
+      end
       
       puts "Fixing your default gemset now"
       
@@ -41,7 +39,9 @@ module ChickenLittle
               Gem::GemRunner.new.run %w{pristine --all}
           end 
         }
-        output
+        puts output[:stderr]
+        exit!
+      end
     end
     
     command "Forces the old method for disabling the annoying deprication warnings", :xor
