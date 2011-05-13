@@ -49,3 +49,16 @@ It doesn't stop any other deprecation warnings just the hostile, anti-user defau
 If you're using RVM you'll need to run this for each gemset.  
 
 Also, as would be expected, you'll need to re-run Chicken Little every time you update the `gem` app.  
+
+### Change List
+
+Version 0.2.0
+Changed to use the proper way to fix the deprecation error.
+
+**Bug Fixes**
+Now properly works in Linux (or at least in Ubuntu 10.10)
+
+Version 0.1.0
+Initial release
+
+
