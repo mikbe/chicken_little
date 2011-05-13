@@ -9,7 +9,7 @@ module ChickenLittle
   class Patch
     extend Commandable
     
-    command "Tries to fix your gems so they stop giving the deprication warning."
+    command "Tries to fix your gems so they stop giving the deprication warning.", :default
     def install
       describe_fix false
       puts %{
