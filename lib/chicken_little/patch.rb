@@ -21,11 +21,12 @@ module ChickenLittle
       rvm = `rvm -v`.strip
       if rvm.start_with?('rvm')
         puts "Fixing the global RVM gemset first"
-        `rvm gemset use global; rvm gemset pristine`
+        ruby_ver, gemset = `rvm-prompt`.strip.split("@")
+        `rvm #{ruby_ver}@global; gem pristine --all --no-extensions; gem pristine --all`
       end
       
       puts "Fixing your default gemset now"
-      
+      fix_gems
     end
     
     def fix_gems
@@ -39,7 +40,7 @@ module ChickenLittle
               Gem::GemRunner.new.run %w{pristine --all}
           end 
         }
-        puts output[:stderr]
+        puts "stderr: #{output[:stderr]}"
         exit!
       end
     end
