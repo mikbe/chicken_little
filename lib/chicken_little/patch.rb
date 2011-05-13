@@ -1,6 +1,6 @@
-require 'rubygems'
-require 'rubygems/gem_runner'
-require 'rubygems/exceptions'
+# require 'rubygems'
+# require 'rubygems/gem_runner'
+# require 'rubygems/exceptions'
 
 module ChickenLittle
 
@@ -11,20 +11,20 @@ module ChickenLittle
     
     command "Tries to fix your gems so they stop giving the deprication warning."
     def install
-      describe_fix
-      puts %{
-  Chicken Little is attempting to fix the errors for you properly. This will take a while.
-  The fix will be run repeatedly until the errors go away or it's tried too many times.
-      }
-      
-      # Test for RVM
-      if `rvm -v`.start_with?("rvm")
-        puts "Fixing the global RVM gemset first"
-        ruby_ver, gemset = `rvm-prompt`.split("@")
-        `rvm gemset use global`
-        #fix_gems
-        `rvm #{ruby_ver}`
-      end
+  #     describe_fix
+  #     puts %{
+  # Chicken Little is attempting to fix the errors for you properly. This will take a while.
+  # The fix will be run repeatedly until the errors go away or it's tried too many times.
+  #     }
+  #     
+  #     # Test for RVM
+  #     if `rvm -v`.start_with?("rvm")
+  #       puts "Fixing the global RVM gemset first"
+  #       ruby_ver, gemset = `rvm-prompt`.split("@")
+  #       `rvm gemset use global`
+  #       #fix_gems
+  #       `rvm #{ruby_ver}`
+  #     end
       
       puts "Fixing your default gemset now"
       
@@ -103,6 +103,7 @@ module ChickenLittle
   If you still have problems you can then force the old install method with:
   $ chicken_little force_install}
       end
+      
     end
 
     private
@@ -118,7 +119,6 @@ module ChickenLittle
         $stdout, $stderr = $o_stdout, $o_stderr
       end
     end
-
     
     def gem_file_path
       @gem_file ||= `which gem`.chomp
