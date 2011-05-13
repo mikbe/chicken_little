@@ -6,16 +6,24 @@ A simple hack to disable the incredibly annoying deprecation warnings for `Gem::
 
 **Installing:**  
 
-To install from a command line run:  
+To properly fix the deprecation warnings run:  
     
     $ chicken_little
 
-If you like to being verbose you can run:  
-
+Which is short for:
+    
     $ chicken_little install
+    
+If you're still getting errors you can use the old method:  
+
+    $ chicken_little force_install
+
+**Describes how to do it manually**
+
+    $ chicken_little describe_fix
 
 **Uninstalling:**  
-When they come to their senses and realize the ridiculous deprecation warnings makes it virtually impossible to work you can uninstall Chicken Little by running:  
+To re-enable the deprecation warnings run:  
 
     $ chicken_little uninstall
 
