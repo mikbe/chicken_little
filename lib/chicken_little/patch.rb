@@ -1,3 +1,7 @@
+require 'rubygems'
+require 'rubygems/gem_runner'
+require 'rubygems/exceptions'
+
 module ChickenLittle
 
   Uncommented_Line = "deprecate :default_executable"
@@ -7,22 +11,37 @@ module ChickenLittle
     
     command "Tries to fix your gems so they stop giving the deprication warning."
     def install
-       
-      (1..5).each do |i|
-        output = capture_output{
-          puts "Cleaning up gems, this will take a while. Go get some coffee..."
-          case i
-            when 1,4
-              `gem pristine --all --no-extensions`
-            else
-              `gem pristine --all`
-          end 
-        }
-        puts "stdout: \n#{output[:stdout]}\n\n"
-        puts "stderr: \n#{output[:stderr]}\n"
-        exit!
+      describe_fix
+      puts %{
+  Chicken Little is attempting to fix the errors for you properly. This will take a while.
+  The fix will be run repeatedly until the errors go away or it's tried too many times.
+      }
+      
+      # Test for RVM
+      if `rvm -v`.start_with?("rvm")
+        puts "Fixing the global RVM gemset first"
+        ruby_ver, gemset = `rvm-prompt`.split("@")
+        `rvm gemset use global`
+        #fix_gems
+        `rvm #{ruby_ver}`
       end
       
+      puts "Fixing your default gemset now"
+      
+    end
+    
+    def fix_gems
+      (1..5).each do |i|
+        puts "Run ##{i}: Cleaning up gems, this will take a while."
+        output = capture_output{
+          case i
+            when 1,4
+              Gem::GemRunner.new.run %w{pristine --all --no-extensions}
+            else
+              Gem::GemRunner.new.run %w{pristine --all}
+          end 
+        }
+        output
     end
     
     command "Forces the old method for disabling the annoying deprication warnings", :xor
@@ -66,7 +85,7 @@ module ChickenLittle
     end
     
     command "Desribe a better way to fix the problem"
-    def describe_fix(force_description=false)
+    def describe_fix(force_description=true)
       flag_file = "#{File.expand_path(File.dirname(__FILE__))}/better_fix_described"
       unless File.exist?(flag_file) && !force_description
         FileUtils.touch flag_file
@@ -80,15 +99,9 @@ module ChickenLittle
   $ gem pristine --all
 
   You may need to run those commands several times.
-
-  Chicken Little is now running those methods for you. This will take a while.
-  They will be run until the errors go away or it's tried too many times.
   
   If you still have problems you can then force the old install method with:
-  $ chicken_little force_install
-          
-          }
-          exit!
+  $ chicken_little force_install}
       end
     end
 
